@@ -1,0 +1,3 @@
+services:
+	forms.configMapper:
+		class: FormsModule\Mapping\ConfigFormMapper(%appDir%/config/config.neon)
