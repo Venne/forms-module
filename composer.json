@@ -2,6 +2,7 @@
 	"name": "venne/forms-module",
 	"description": "Forms module with new inputs",
 	"keywords": ["cms", "nette", "venne", "module"],
+	"type": "venne-module",
 	"version": "2.0.0",
 	"authors": [
 		{
@@ -20,6 +21,13 @@
 	"extra": {
 		"branch-alias": {
 			"dev-master": "2.0.x-dev"
+		},
+		"venne": {
+			"configuration": {
+				"includes": [
+					"%libsDir%/venne/forms-module/FormsModule/Resources/config/config.neon"
+				]
+			}
 		}
 	}
 }
