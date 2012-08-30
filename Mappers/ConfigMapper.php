@@ -9,21 +9,20 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace FormsModule\Mapping;
+namespace FormsModule\Mappers;
 
-use Doctrine;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Venne;
-use Doctrine\Common\Persistence\ObjectManager;
-use Nette;
-use Nette\ComponentModel\IComponent;
-use SplObjectStorage;
+use Venne\Forms\IMapper;
+use Venne\Forms\Form;
+use Nette\Forms\Container;
+use Nette\Utils\Strings;
 use Nette\Config\Adapters\NeonAdapter;
+use Nette\ComponentModel\IComponent;
 
 /**
- * @author Josef Kříž <pepakriz@gmail.com>
+ * @author     Josef Kříž
  */
-class ConfigFormMapper extends \Nette\Object
+class ConfigMapper extends \Nette\Object implements IMapper
 {
 
 
@@ -39,22 +38,20 @@ class ConfigFormMapper extends \Nette\Object
 	/** @var array */
 	protected $data;
 
-	/** @var Nette\Forms\Container */
+	/** @var Container */
 	protected $container;
-
 
 
 	/**
 	 * @param string $fileName
 	 * @param string $root
 	 */
-	public function __construct($fileName, $root = "")
+	public function __construct($fileName, $root = '')
 	{
 		$this->fileName = $fileName;
-		$this->root = explode(".", $root);
+		$this->root = explode('.', $root);
 		$this->adapter = new NeonAdapter;
 	}
-
 
 
 	public function getRoot()
@@ -63,30 +60,27 @@ class ConfigFormMapper extends \Nette\Object
 	}
 
 
-
 	public function setRoot($root)
 	{
 		$root = str_replace('\.', '\\', $root);
 		$this->root = $this->root = $root ? explode(".", $root) : array();
-		foreach($this->root as $key=>$item){
+		foreach ($this->root as $key => $item) {
 			$this->root[$key] = str_replace('\\', '.', $item);
 		}
 	}
 
 
-
-	public function getContainer()
-	{
-		return $this->container;
-	}
-
-
-
-	public function setContainer($container)
+	public function setForm(Form $container)
 	{
 		$this->container = $container;
+		$this->container->onSuccess[] = $this->saveConfig;
 	}
 
+
+	public function assign($data, IComponent $container)
+	{
+
+	}
 
 
 	protected function loadConfig()
@@ -102,9 +96,9 @@ class ConfigFormMapper extends \Nette\Object
 	}
 
 
-
-	protected function saveConfig($values)
+	public function saveConfig()
 	{
+		$values = $this->data;
 		$this->loadConfig();
 		$data = & $this->data;
 
@@ -112,12 +106,11 @@ class ConfigFormMapper extends \Nette\Object
 			$data = & $data[$item];
 		}
 
-		$data = $data ?: array();
+		$data = $data ? : array();
 		$data = ($values + $data);
 
 		file_put_contents($this->fileName, $this->adapter->dump($this->data));
 	}
-
 
 
 	/**
@@ -130,14 +123,14 @@ class ConfigFormMapper extends \Nette\Object
 		if (!$rec) {
 			$values = $this->loadConfig();
 		} else {
-			if(!isset($values[$rec])){
+			if (!isset($values[$rec])) {
 				$values[$rec] = array();
 			}
 			$values = $values[$rec];
 		}
 
 		foreach ($container->getComponents() as $key => $control) {
-			if (!Nette\Utils\Strings::startsWith($key, "_")) {
+			if (!Strings::startsWith($key, "_")) {
 				if ($control instanceof \Nette\Forms\Container) {
 					$values[$key] = $this->save($control, $key, $values);
 				} else if ($control instanceof \Nette\Forms\IControl) {
@@ -147,12 +140,11 @@ class ConfigFormMapper extends \Nette\Object
 		}
 
 		if (!$rec) {
-			$this->saveConfig($values);
+			$this->data = $values;
 		} else {
 			return $values;
 		}
 	}
-
 
 
 	/**
@@ -167,7 +159,7 @@ class ConfigFormMapper extends \Nette\Object
 		}
 
 		foreach ($container->getComponents() as $key => $control) {
-			if (!Nette\Utils\Strings::startsWith($key, "_")) {
+			if (!Strings::startsWith($key, "_")) {
 				if ($control instanceof \Nette\Forms\Container) {
 					$this->load($control, true, isset($values[$key]) ? $values[$key] : "");
 				} else if ($control instanceof \Nette\Forms\IControl) {
@@ -176,5 +168,4 @@ class ConfigFormMapper extends \Nette\Object
 			}
 		}
 	}
-
 }

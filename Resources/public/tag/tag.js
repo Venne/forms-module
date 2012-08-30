@@ -72,7 +72,7 @@ function TagInputControl() {
 	this.rules = undefined;
 
 	this.dontBlur = false;
-	
+
 	this.onKeyDown = function(e) {
 		if (kb.input(e)) { // just writing letters
 			if (i.getMaxLen() !== 0 && i.getMaxLen() === i.tags.children('.tag').length)
@@ -207,7 +207,7 @@ function TagInputControl() {
 	};
 
 	this.hasSuggest = function() {
-                if (!i.control.data('tag-suggest'))
+		if (!i.control.data('tag-suggest'))
 			return false;
 		return i.control.data('tag-suggest').replace('%25filter%25', i.helper.val());
 	};
@@ -403,58 +403,58 @@ $.fn.validateTagInput = function(onlyCheck) {
 
 
 jQuery.fn.compare = function(t) {
-    if (this.length != t.length) {return false;}
-    var a = this.sort(),
-        b = t.sort();
-    for (var i = 0; t[i]; i++) {
-        if (a[i] !== b[i]) {
-                return false;
-        }
-    }
-    return true;
+	if (this.length != t.length) {return false;}
+	var a = this.sort(),
+		b = t.sort();
+	for (var i = 0; t[i]; i++) {
+		if (a[i] !== b[i]) {
+			return false;
+		}
+	}
+	return true;
 };
 
 
 Nette.validateRuleTagControl = function(tags, op, arg)
 {
 	switch (op) {
-	case ':filled':
-		return tags.length !== 0;
+		case ':filled':
+			return tags.length !== 0;
 
-	case ':equal':
-		arg = arg instanceof Array ? arg : [arg];
-		return $(tags).compare(arg);
+		case ':equal':
+			arg = arg instanceof Array ? arg : [arg];
+			return $(tags).compare(arg);
 
-	case ':minLength':
-		return tags.length >= arg;
+		case ':minLength':
+			return tags.length >= arg;
 
-	case ':maxLength':
-		return tags.length <= arg;
+		case ':maxLength':
+			return tags.length <= arg;
 
-	case ':length':
-		if (typeof arg !== 'object') {
-			arg = [arg, arg];
-		}
-		return (arg[0] === null || tags.length >= arg[0]) && (arg[1] === null || tags.length <= arg[1]);
+		case ':length':
+			if (typeof arg !== 'object') {
+				arg = [arg, arg];
+			}
+			return (arg[0] === null || tags.length >= arg[0]) && (arg[1] === null || tags.length <= arg[1]);
 
-	case ':integer':
-		var success = true;
-		$.each(tags, function(index, tag) {
-			if (!tag.match(/^-?[0-9]+$/))
-				success = false;
-		});
-		return success;
+		case ':integer':
+			var success = true;
+			$.each(tags, function(index, tag) {
+				if (!tag.match(/^-?[0-9]+$/))
+					success = false;
+			});
+			return success;
 
-	case ':float':
-		var success = true;
-		$.each(tags, function(index, tag) {
-			if (!tag.match(/^-?[0-9]*[.,]?[0-9]+$/))
-				success = false
-		});
-		return success;
+		case ':float':
+			var success = true;
+			$.each(tags, function(index, tag) {
+				if (!tag.match(/^-?[0-9]*[.,]?[0-9]+$/))
+					success = false
+			});
+			return success;
 
-	case ':unique':
-		return $.unique(tags) === tags;
+		case ':unique':
+			return $.unique(tags) === tags;
 	}
 
 	if (onlyCheck === undefined || !onlyCheck) {
