@@ -31,7 +31,7 @@ class ControlExtension extends Object implements IControlExtension
 	public function getControls(Form $form)
 	{
 		return array(
-			'tags', 'dynamic', 'date', 'dateTime', 'time', 'TextWithSelect', 'editor', 'dependentSelectBox', 'checkboxList'
+			'tags', 'dynamic', 'date', 'dateTime', 'time', 'textWithSelect', 'editor', 'dependentSelectBox', 'checkboxList'
 		);
 	}
 
