@@ -107,11 +107,11 @@ class TagsInput extends \Nette\Forms\Controls\TextInput
 		$control = parent::getControl();
 
 		if ($this->delimiter !== NULL && Strings::trim($this->delimiter) !== '') {
-			$control->attrs['data-nella-tag-delimiter'] = $this->delimiter;
+			$control->attrs['data-tag-delimiter'] = $this->delimiter;
 		}
 
 		if ($this->joiner !== NULL && Strings::trim($this->joiner) !== '') {
-			$control->attrs['data-nella-tag-joiner'] = $this->joiner;
+			$control->attrs['data-tag-joiner'] = $this->joiner;
 		}
 
 		if ($this->suggestCallback !== NULL) {
@@ -119,10 +119,11 @@ class TagsInput extends \Nette\Forms\Controls\TextInput
 			if (!$form || !$form instanceof Form) {
 				throw new InvalidStateException("TagInput supports only Nette\\Application\\UI\\Form.");
 			}
-			$control->attrs['data-nella-tag-suggest'] = $form->getPresenter()->link($this->renderName, array('word_filter' => '%filter%'));
+			$control->attrs['data-tag-suggest'] = $form->getPresenter()->link($this->renderName, array('word_filter' => '%filter%'));
 		}
 		$container->add($control);
-		$container->add(Html::el('script')->setHtml('TagInput.create("#frm' . $this->form->name . '-' . $this->name . '");'));
+		//$container->add(Html::el('script')->setHtml('TagInput.create("#frm' . $this->form->name . '-' . $this->name . '");'));
+		$container->add(Html::el('script')->setHtml('$("#frm' . $this->form->name . '-' . $this->name . '").tagsInput({"delimiter":"'.$this->joiner.'"});'));
 
 		return $container;
 	}

@@ -31,7 +31,7 @@ class ControlExtension extends Object implements IControlExtension
 	public function getControls(Form $form)
 	{
 		return array(
-			'tag', 'dynamic', 'date', 'dateTime', 'time', 'TextWithSelect', 'editor', 'dependentSelectBox', 'checkboxList'
+			'tags', 'dynamic', 'date', 'dateTime', 'time', 'TextWithSelect', 'editor', 'dependentSelectBox', 'checkboxList'
 		);
 	}
 
@@ -59,7 +59,7 @@ class ControlExtension extends Object implements IControlExtension
 	 * @param callable	suggest callback ($filter, $payloadLimit)
 	 * @return type
 	 */
-	public function addTag($form, $name, $label, $suggestCallback = NULL)
+	public function addTags($form, $name, $label, $suggestCallback = NULL)
 	{
 		$control = $form[$name] = new Controls\TagsInput($label);
 		if ($suggestCallback) {
