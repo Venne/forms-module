@@ -15,7 +15,7 @@ use Venne;
 use Nette\Object;
 use Venne\Forms\IControlExtension;
 use Venne\Forms\Form;
-use FormsModule\Container;
+use FormsModule\Containers;
 use FormsModule\Controls;
 
 
@@ -46,6 +46,8 @@ class ControlExtension extends Object implements IControlExtension
 	 */
 	public function addDynamic($form, $name, $factory, $createDefault = 0)
 	{
+		\FormsModule\Containers\Replicator::register();
+
 		return $form[$name] = new Containers\Replicator($factory, $createDefault);
 	}
 
