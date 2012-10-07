@@ -48,7 +48,9 @@ class ControlExtension extends Object implements IControlExtension
 	{
 		\Kdyby\Extension\Forms\Replicator\Replicator::register();
 
-		return $form[$name] = new \Kdyby\Extension\Forms\Replicator\Replicator($factory, $createDefault);
+		$form[$name] = $control = new \Kdyby\Extension\Forms\Replicator\Replicator($factory, $createDefault);
+		$control->containerClass = 'Venne\Forms\Container';
+		return $control;
 	}
 
 
