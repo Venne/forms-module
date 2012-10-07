@@ -122,8 +122,7 @@ class TagsInput extends \Nette\Forms\Controls\TextInput
 			$control->attrs['data-tag-suggest'] = $form->getPresenter()->link($this->renderName, array('word_filter' => '%filter%'));
 		}
 		$container->add($control);
-		//$container->add(Html::el('script')->setHtml('TagInput.create("#frm' . $this->form->name . '-' . $this->name . '");'));
-		$container->add(Html::el('script')->setHtml('$("#frm' . $this->form->name . '-' . $this->name . '").tagsInput({"delimiter":"'.$this->joiner.'"});'));
+		$container->add(Html::el('script')->setHtml('$("#' . $this->getHtmlId() . '").tagsInput({"delimiter":"'.$this->joiner.'"});'));
 
 		return $container;
 	}
