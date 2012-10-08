@@ -25,12 +25,10 @@ use Nette\Utils\Html,
  */
 class CheckboxList extends \Nette\Forms\Controls\BaseControl
 {
-
-
-	/** @var \Nette\Utils\Html  separator element template */
+	/** @var Nette\Utils\Html  separator element template */
 	protected $separator;
 
-	/** @var \Nette\Utils\Html  container element template */
+	/** @var Nette\Utils\Html  container element template */
 	protected $container;
 
 	/** @var array */
@@ -42,14 +40,12 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	 * @param string $label
 	 * @param array $items  Options from which to choose
 	 */
-	public function __construct($label = NULL, array $items = NULL)
+	public function __construct($label, array $items = NULL)
 	{
 		parent::__construct($label);
-
 		$this->control->type = 'checkbox';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
-
 		if ($items !== NULL) {
 			$this->setItems($items);
 		}
@@ -64,7 +60,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	 */
 	public function getValue()
 	{
-		return is_array($this->value) ? array_keys(array_filter($this->value)) : NULL;
+		return is_array($this->value) ? $this->value : NULL;
 	}
 
 
@@ -98,7 +94,8 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Returns separator HTML element template.
 	 *
-	 * @return \Nette\Utils\Html
+	 * @return Nette\Utils\Html
+	 * @return Nette\Web\Html
 	 */
 	public function getSeparatorPrototype()
 	{
@@ -110,7 +107,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Returns container HTML element template.
 	 *
-	 * @return \Nette\Utils\Html
+	 * @return Nette\Utils\Html
 	 */
 	public function getContainerPrototype()
 	{
@@ -123,13 +120,14 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	 * Generates control's HTML element.
 	 *
 	 * @param mixed $key  Specify a key if you want to render just a single checkbox
-	 * @return \Nette\Utils\Html
+	 * @return Nette\Utils\Html
 	 */
 	public function getControl($key = NULL)
 	{
 		if ($key === NULL) {
 			$container = clone $this->container;
 			$separator = (string) $this->separator;
+
 		} elseif (!isset($this->items[$key])) {
 			return NULL;
 		}
@@ -143,8 +141,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 
 		foreach ($this->items as $k => $val) {
 			$counter++;
-			if ($key !== NULL && $key != $k)
-				continue; // intentionally ==
+			if ($key !== NULL && $key != $k) continue; // intentionally ==
 
 			$control->id = $label->for = $id . '-' . $counter;
 			$control->checked = (count($values) > 0) ? in_array($k, $values) : false;
@@ -157,7 +154,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 			}
 
 			if ($key !== NULL) {
-				return Html::el()->add($control)->add($label);
+				return (string) $control . (string) $label;
 			}
 
 			$container->add((string) $control . (string) $label . $separator);
@@ -171,9 +168,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Generates label's HTML element.
 	 *
-	 * @param string $caption
-	 *
-	 * @return \Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabel($caption = NULL)
 	{
@@ -187,12 +182,24 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Filled validator: has been any checkbox checked?
 	 *
-	 * @param \Nette\Forms\IControl $control
+	 * @param CheckboxList $control
 	 * @return bool
 	 */
-	public static function validateChecked(Nette\Forms\IControl $control)
+	public static function validateChecked(CheckboxList $control)
 	{
 		return $control->getValue() !== NULL;
+	}
+
+
+
+	/**
+	 * Adds addCheckboxList() method to Nette\Forms\Container
+	 */
+	public static function register()
+	{
+		Container::extensionMethod('addCheckboxList', function (Container $_this, $name, $label, array $items = NULL) {
+			return $_this[$name] = new CheckboxList($label, $items);
+		});
 	}
 
 }
