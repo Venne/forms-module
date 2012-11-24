@@ -1,32 +1,30 @@
 {
-	"name": "venne/forms-module",
-	"description": "Forms module with new inputs",
-	"keywords": ["cms", "nette", "venne", "module"],
-	"type": "venne-module",
-	"version": "2.0.0",
-	"authors": [
+	"name":"venne/forms-module",
+	"description":"Forms module with new inputs",
+	"keywords":["cms", "nette", "venne", "module"],
+	"authors":[
 		{
-			"name": "Josef Kříž",
-			"homepage": "http://josef-kriz.cz"
+			"name":"Josef Kříž",
+			"homepage":"http://josef-kriz.cz"
 		}
 	],
-	"require": {
-		"php" : ">=5.3.2",
-		"venne/assets-module" : "2.0.x-dev",
-		"kdyby/forms-replicator" : "@dev"
+	"require":{
+		"php":">=5.3.2",
+		"venne/assets-module":"2.0.x-dev"
 	},
-	"autoload": {
-		"psr-0": { "FormsModule": "" }
+	"autoload":{
+		"psr-0":{
+			"FormsModule":""
+		}
 	},
-	"target-dir": "FormsModule",
-	"extra": {
-		"branch-alias": {
-			"dev-master": "2.0.x-dev"
+	"extra":{
+		"branch-alias":{
+			"dev-master":"2.0.x-dev"
 		},
-		"venne": {
-			"configuration": {
-				"includes": [
-					"%libsDir%/venne/forms-module/FormsModule/Resources/config/config.neon"
+		"venne":{
+			"configuration":{
+				"includes":[
+					"%modules.forms.path%/Resources/config/config.neon"
 				]
 			}
 		}
