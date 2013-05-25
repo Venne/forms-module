@@ -29,6 +29,6 @@ class FormsExtension extends CompilerExtension
 		$container = $this->getContainerBuilder();
 
 		$container->addDefinition($this->prefix('configMapper'))
-			->setFactory('FormsModule\Mappers\ConfigMapper', array($container->parameters['appDir'] . '/config/config.neon'));
+			->setFactory('FormsModule\Mappers\ConfigMapper', array($container->parameters['configDir'] . '/config.neon'));
 	}
 }
