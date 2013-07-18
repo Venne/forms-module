@@ -31,8 +31,35 @@ class ControlExtension extends Object implements IControlExtension
 	public function getControls(Form $form)
 	{
 		return array(
-			'tags', 'dynamic', 'date', 'dateTime', 'time', 'textWithSelect', 'editor', 'dependentSelectBox', 'checkboxList'
+			'tags', 'dynamic', 'date', 'dateTime', 'time', 'textWithSelect', 'editor', 'dependentSelectBox', 'checkboxList', 'antispam',
 		);
+	}
+
+
+	/**
+	 * @param $form
+	 * @param string $name
+	 * @param string $label
+	 * @param string $msg
+	 * @return Controls\AntispamControl
+	 */
+	public function addAntispam($form, $name = 'spam', $label = '', $msg = 'Byl detekován pokus o spam.')
+	{
+		$form[$name] = $control =  new Controls\AntispamControl($label, NULL, NULL, $msg);
+
+		// "Send delay" protection
+		$form->addHidden('form_created', strtr(time(), '0123456789', 'jihgfedcba'))
+			->addRule(
+				function ($item) {
+					if (Controls\AntispamControl::$minDelay <= 0) return TRUE; // turn off "Send delay protection"
+
+					$value = (int)strtr($item->value, 'jihgfedcba', '0123456789');
+					return $value <= (time() - Controls\AntispamControl::$minDelay);
+				},
+				$msg
+			);
+
+		return $control;
 	}
 
 
@@ -63,7 +90,7 @@ class ControlExtension extends Object implements IControlExtension
 	 * @param callable	suggest callback ($filter, $payloadLimit)
 	 * @return type
 	 */
-	public function addTags($form, $name, $label, $suggestCallback = NULL)
+	public function addTags($form, $name, $label = NULL, $suggestCallback = NULL)
 	{
 		$control = $form[$name] = new Controls\TagsInput($label);
 		if ($suggestCallback) {
