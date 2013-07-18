@@ -66,13 +66,13 @@ class TextWithSelect extends \Nette\Forms\Controls\TextInput
 			foreach ($value as $key2 => $value2) {
 				if (!$this->useKeys) {
 					if (!is_scalar($value2)) {
-						throw new Nette\InvalidArgumentException("All items must be scalar.");
+						throw new \Nette\InvalidArgumentException("All items must be scalar.");
 					}
 					$key2 = $value2;
 				}
 
 				if (isset($this->allowed[$key2])) {
-					throw new Nette\InvalidArgumentException("Items contain duplication for key '$key2'.");
+					throw new \Nette\InvalidArgumentException("Items contain duplication for key '$key2'.");
 				}
 
 				$this->allowed[$key2] = $value2;
@@ -98,7 +98,7 @@ class TextWithSelect extends \Nette\Forms\Controls\TextInput
 	/**
 	 * Generates control's HTML element.
 	 *
-	 * @return Nette\Utils\Html
+	 * @return \Nette\Utils\Html
 	 */
 	public function getControl()
 	{
@@ -121,7 +121,7 @@ class TextWithSelect extends \Nette\Forms\Controls\TextInput
 			}
 
 			foreach ($value as $key2 => $value2) {
-				if ($value2 instanceof Nette\Utils\Html) {
+				if ($value2 instanceof \Nette\Utils\Html) {
 					$dest->add((string)$value2->selected(isset($selected[$key2])));
 
 				} else {

@@ -94,8 +94,8 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Returns separator HTML element template.
 	 *
-	 * @return Nette\Utils\Html
-	 * @return Nette\Web\Html
+	 * @return \Nette\Utils\Html
+	 * @return \Nette\Web\Html
 	 */
 	public function getSeparatorPrototype()
 	{
@@ -107,7 +107,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	/**
 	 * Returns container HTML element template.
 	 *
-	 * @return Nette\Utils\Html
+	 * @return \Nette\Utils\Html
 	 */
 	public function getContainerPrototype()
 	{
@@ -120,7 +120,7 @@ class CheckboxList extends \Nette\Forms\Controls\BaseControl
 	 * Generates control's HTML element.
 	 *
 	 * @param mixed $key  Specify a key if you want to render just a single checkbox
-	 * @return Nette\Utils\Html
+	 * @return \Nette\Utils\Html
 	 */
 	public function getControl($key = NULL)
 	{
