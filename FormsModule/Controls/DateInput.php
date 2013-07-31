@@ -60,8 +60,7 @@ class DateInput extends BaseControl
 	/** @var mixed */
 	protected $submitedValue = null;
 	private static $formats = array(
-		self::TYPE_DATETIME => 'Y-m-d\TH:i:se',
-		self::TYPE_DATETIME_LOCAL => 'Y-m-d\TH:i:s',
+		self::TYPE_DATETIME => 'Y-m-d H:i:s',
 		self::TYPE_DATE => 'Y-m-d',
 		self::TYPE_MONTH => 'Y-m',
 		self::TYPE_TIME => 'H:i:s',
@@ -89,7 +88,6 @@ class DateInput extends BaseControl
 		}
 		parent::__construct($label);
 		$this->control->type = $this->type = $type;
-		$this->control->data('dateinput-type', $type);
 	}
 
 
@@ -251,7 +249,6 @@ class DateInput extends BaseControl
 	 */
 	private function parseValue($value)
 	{
-		$date = null;
 		if ($this->type === self::TYPE_WEEK) {
 			try {
 				$date = new \DateTime($value . "1");

@@ -154,8 +154,6 @@ class ControlExtension extends Object implements IControlExtension
 	 */
 	public function addDependentSelectBox($form, $name, $label, $parents, $dataCallback)
 	{
-		//$this->assetManager->addJavascript("@FormsModule/dependentSelectBox/dependentSelectBox.js");
-
 		return $form[$name] = new Controls\DependentSelectBox($label, $parents, $dataCallback);
 	}
 
@@ -205,8 +203,6 @@ class ControlExtension extends Object implements IControlExtension
 	 */
 	public function addTextWithSelect($form, $name, $label, $cols = NULL, $maxLength = NULL)
 	{
-		//$this->assetManager->addJavascript("@FormsModule/textWithSelect/textWithSelect.js");
-
 		return $form[$name] = new Controls\TextWithSelect($label, $cols, $maxLength);
 	}
 }
