@@ -11,12 +11,12 @@
 
 namespace FormsModule\ControlExtensions;
 
-use Venne;
-use Nette\Object;
-use Venne\Forms\IControlExtension;
-use Venne\Forms\Form;
 use FormsModule\Containers;
 use FormsModule\Controls;
+use Nette\Object;
+use Venne;
+use Venne\Forms\Form;
+use Venne\Forms\IControlExtension;
 
 
 /**
@@ -31,7 +31,7 @@ class ControlExtension extends Object implements IControlExtension
 	public function getControls(Form $form)
 	{
 		return array(
-			'tags', 'dynamic', 'date', 'dateTime', 'time', 'textWithSelect', 'editor', 'dependentSelectBox', 'checkboxList', 'antispam',
+			'tags', 'dynamic', 'date', 'dateTime', 'time', 'textWithSelect', 'editor', 'code', 'dependentSelectBox', 'checkboxList', 'antispam',
 		);
 	}
 
@@ -45,7 +45,7 @@ class ControlExtension extends Object implements IControlExtension
 	 */
 	public function addAntispam($form, $name = 'spam', $label = '', $msg = 'Byl detekován pokus o spam.')
 	{
-		$form[$name] = $control =  new Controls\AntispamControl($label, NULL, NULL, $msg);
+		$form[$name] = $control = new Controls\AntispamControl($label, NULL, NULL, $msg);
 
 		// "Send delay" protection
 		$form->addHidden('form_created', strtr(time(), '0123456789', 'jihgfedcba'))
@@ -81,13 +81,12 @@ class ControlExtension extends Object implements IControlExtension
 	}
 
 
-
 	/**
 	 * Add tags input to the form.
 	 *
 	 * @param type $name
 	 * @param type $label
-	 * @param callable	suggest callback ($filter, $payloadLimit)
+	 * @param callable    suggest callback ($filter, $payloadLimit)
 	 * @return type
 	 */
 	public function addTags($form, $name, $label = NULL, $suggestCallback = NULL)
@@ -98,7 +97,6 @@ class ControlExtension extends Object implements IControlExtension
 		}
 		return $control;
 	}
-
 
 
 	/**
@@ -114,7 +112,6 @@ class ControlExtension extends Object implements IControlExtension
 	}
 
 
-
 	/**
 	 * Add DateTime input to the form.
 	 *
@@ -126,7 +123,6 @@ class ControlExtension extends Object implements IControlExtension
 	{
 		return $form[$name] = new Controls\DateInput($label, Controls\DateInput::TYPE_DATETIME);
 	}
-
 
 
 	/**
@@ -142,7 +138,6 @@ class ControlExtension extends Object implements IControlExtension
 	}
 
 
-
 	/**
 	 * Add DependentSelectBox to the form.
 	 *
@@ -156,7 +151,6 @@ class ControlExtension extends Object implements IControlExtension
 	{
 		return $form[$name] = new Controls\DependentSelectBox($label, $parents, $dataCallback);
 	}
-
 
 
 	/**
@@ -176,6 +170,22 @@ class ControlExtension extends Object implements IControlExtension
 	}
 
 
+	/**
+	 * Add Editor to the form.
+	 *
+	 * @param type $name
+	 * @param type $label
+	 * @param type $cols
+	 * @param type $rows
+	 * @return type
+	 */
+	public function addCode($form, $name, $label = NULL, $cols = 40, $rows = 10)
+	{
+		$item = $form->addTextArea($name, $label, $cols, $rows);
+		$item->setAttribute('venne-form-code', true);
+		return $item;
+	}
+
 
 	/**
 	 * Add CheckboxList to the form.
@@ -189,7 +199,6 @@ class ControlExtension extends Object implements IControlExtension
 	{
 		return $form[$name] = new Controls\CheckboxList($label, $items);
 	}
-
 
 
 	/**
