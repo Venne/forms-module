@@ -31,6 +31,6 @@ class FormsExtension extends CompilerExtension
 		$container->addDefinition($this->prefix('configMapper'))
 			->setFactory('FormsModule\Mappers\ConfigMapper', array($container->parameters['configDir'] . '/config.neon'));
 
-		$this->compiler->addExtension('twBootstrapRenderer', new \Kdyby\Extension\Forms\BootstrapRenderer\DI\RendererExtension);
+		$this->compiler->addExtension('twBootstrapRenderer', new \Kdyby\BootstrapFormRenderer\DI\RendererExtension);
 	}
 }
