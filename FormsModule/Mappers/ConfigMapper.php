@@ -29,7 +29,7 @@ class ConfigMapper extends \Nette\Object implements IMapper
 	/** @var string */
 	protected $fileName;
 
-	/** @var Nette\Config\Adapters\NeonAdapter */
+	/** @var NeonAdapter */
 	protected $adapter;
 
 	/** @var string */

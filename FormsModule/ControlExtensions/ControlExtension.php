@@ -69,15 +69,16 @@ class ControlExtension extends Object implements IControlExtension
 	 * @param type $name
 	 * @param type $factory
 	 * @param type $createDefault
+	 * @param bool $forceDefault
 	 * @return type
 	 */
-	public function addDynamic($form, $name, $factory, $createDefault = 0)
+	public function addDynamic($form, $name, $factory, $createDefault = 0, $forceDefault = FALSE)
 	{
-		\Kdyby\Extension\Forms\Replicator\Replicator::register();
+		\Kdyby\Replicator\Container::register();
 
-		$form[$name] = $control = new \Kdyby\Extension\Forms\Replicator\Replicator($factory, $createDefault);
+		$control = new \Kdyby\Replicator\Container($factory, $createDefault, $forceDefault);
 		$control->containerClass = 'Venne\Forms\Container';
-		return $control;
+		return $form[$name] = $control;
 	}
 
 
