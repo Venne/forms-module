@@ -11,6 +11,7 @@
 
 namespace FormsModule\Mappers;
 
+use Nette\ArrayHash;
 use Venne;
 use Venne\Forms\IMapper;
 use Venne\Forms\Form;
@@ -130,9 +131,9 @@ class ConfigMapper extends \Nette\Object implements IMapper
 		}
 
 		foreach ($container->getComponents() as $key => $control) {
-			if (!Strings::startsWith($key, "_")) {
+			if (!Strings::startsWith($key, '_')) {
 				if ($control instanceof \Nette\Forms\Container) {
-					$values[$key] = $this->save($control, $key, $values);
+					$values[$key] = $this->save($control, TRUE, $values);
 				} else if ($control instanceof \Nette\Forms\IControl) {
 					$values[$key] = $control->value;
 				}
@@ -150,22 +151,11 @@ class ConfigMapper extends \Nette\Object implements IMapper
 	/**
 	 * @return array
 	 */
-	public function load($container = NULL, $rec = false, $values = NULL)
+	public function load($container = NULL)
 	{
 		$container = $container ? : $this->container;
 
-		if (!$rec) {
-			$values = $this->loadConfig();
-		}
-
-		foreach ($container->getComponents() as $key => $control) {
-			if (!Strings::startsWith($key, "_")) {
-				if ($control instanceof \Nette\Forms\Container) {
-					$this->load($control, true, isset($values[$key]) ? $values[$key] : "");
-				} else if ($control instanceof \Nette\Forms\IControl) {
-					$control->value = isset($values[$key]) ? $values[$key] : "";
-				}
-			}
-		}
+		$values = $this->loadConfig();
+		$container->setValues($values);
 	}
 }
