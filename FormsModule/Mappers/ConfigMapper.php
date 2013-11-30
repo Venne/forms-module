@@ -11,19 +11,18 @@
 
 namespace FormsModule\Mappers;
 
-use Nette\ArrayHash;
-use Venne;
-use Venne\Forms\IMapper;
-use Venne\Forms\Form;
-use Nette\Forms\Container;
-use Nette\Utils\Strings;
-use Nette\Config\Adapters\NeonAdapter;
 use Nette\ComponentModel\IComponent;
+use Nette\Config\Adapters\NeonAdapter;
+use Nette\Forms\Container;
+use Nette\Object;
+use Nette\Utils\Strings;
+use Venne\Forms\Form;
+use Venne\Forms\IMapper;
 
 /**
  * @author     Josef Kříž
  */
-class ConfigMapper extends \Nette\Object implements IMapper
+class ConfigMapper extends Object implements IMapper
 {
 
 
@@ -111,11 +110,18 @@ class ConfigMapper extends \Nette\Object implements IMapper
 		$data = ($values + $data);
 
 		file_put_contents($this->fileName, $this->adapter->dump($this->data));
+
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
+		}
 	}
 
 
 	/**
-	 * @return array
+	 * @param null $container
+	 * @param bool $rec
+	 * @param null $values
+	 * @return array|null
 	 */
 	public function save($container = NULL, $rec = false, $values = NULL)
 	{
@@ -149,7 +155,7 @@ class ConfigMapper extends \Nette\Object implements IMapper
 
 
 	/**
-	 * @return array
+	 * @param null $container
 	 */
 	public function load($container = NULL)
 	{
