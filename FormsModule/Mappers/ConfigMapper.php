@@ -15,6 +15,7 @@ use Nette\ComponentModel\IComponent;
 use Nette\Config\Adapters\NeonAdapter;
 use Nette\Forms\Container;
 use Nette\Object;
+use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Venne\Forms\Form;
 use Venne\Forms\IMapper;
@@ -107,7 +108,7 @@ class ConfigMapper extends Object implements IMapper
 		}
 
 		$data = $data ? : array();
-		$data = ($values + $data);
+		$data = Arrays::mergeTree($values, $data);
 
 		file_put_contents($this->fileName, $this->adapter->dump($this->data));
 
