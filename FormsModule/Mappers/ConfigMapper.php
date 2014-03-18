@@ -12,7 +12,7 @@
 namespace FormsModule\Mappers;
 
 use Nette\ComponentModel\IComponent;
-use Nette\Config\Adapters\NeonAdapter;
+use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\Forms\Container;
 use Nette\Object;
 use Nette\Utils\Arrays;
